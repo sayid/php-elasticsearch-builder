@@ -294,6 +294,7 @@ class ElasticBuilderTest extends TestCase
 
         $builder = new ElasticBuilder();
         $builder->query($query);
+        $builder->query($termQuery);
 
         $expected = [
             'query' => [
@@ -304,6 +305,9 @@ class ElasticBuilderTest extends TestCase
                         ],
                     ],
                 ],
+                'term' => [
+                    'user' => 'john',
+                ]
             ],
         ];
 
@@ -313,20 +317,28 @@ class ElasticBuilderTest extends TestCase
     /** @test */
     public function add_aggregation()
     {
-        $aggregation = new TermsAggregation();
-        $aggregation->name('genres');
-        $aggregation->field('genre');
+        $aggregation1 = new TermsAggregation();
+        $aggregation1->name('genres');
+        $aggregation1->field('genre');
+
+        $aggregation2 = new TermsAggregation();
+        $aggregation2->name('colors');
+        $aggregation2->field('my-color');
 
         $builder = new ElasticBuilder();
-        $builder->aggregation($aggregation);
+        $builder->aggregation($aggregation1);
+        $builder->aggregation($aggregation2);
 
         $expected = [
             'aggs' => [
-                [
-                    'genres' => [
-                        'terms' => [
-                            'field' => 'genre',
-                        ],
+                'genres' => [
+                    'terms' => [
+                        'field' => 'genre',
+                    ],
+                ],
+                'colors' => [
+                    'terms' => [
+                        'field' => 'my-color',
                     ],
                 ],
             ],

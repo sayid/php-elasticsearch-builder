@@ -1,0 +1,37 @@
+<?php
+
+namespace Hypefactors\ElasticBuilder\Tests\Query\Compound;
+
+use PHPUnit\Framework\TestCase;
+use Hypefactors\ElasticBuilder\Query\TermLevel\TermQuery;
+use Hypefactors\ElasticBuilder\Query\Compound\DisMaxQuery;
+
+class DisMaxQueryTest extends TestCase
+{
+    /** @test */
+    public function it_applies_the_filter_clause_to_the_query()
+    {
+        $termQuery = new TermQuery();
+        $termQuery->field('user');
+        $termQuery->value('john');
+
+        $query = new DisMaxQuery();
+        $query->queries($termQuery);
+        $query->tieBreaker(0.7);
+
+        $expectedQuery = [
+            'dis_max' => [
+                'queries' => [
+                    [
+                        'term' => [
+                            'user' => 'john',
+                        ],
+                    ],
+                ],
+                'tie_breaker' => 0.7,
+            ],
+        ];
+
+        $this->assertSame($expectedQuery, $query->toArray());
+    }
+}

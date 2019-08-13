@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\TermLevel;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\Query;
 
@@ -28,14 +30,14 @@ class ExistsQuery extends Query
     /**
      * Returns the DSL Query as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         if (! isset($this->body['field'])) {
-            throw new RuntimeException('The "field" is required!');
+            throw new InvalidArgumentException('The "field" is required!');
         }
 
         return [

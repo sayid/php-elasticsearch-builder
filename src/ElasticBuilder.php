@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder;
 
-use RuntimeException;
-use Hypefactors\ElasticBuilder\Core\Sort;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Core\Util;
-use Hypefactors\ElasticBuilder\Core\Script;
-use Hypefactors\ElasticBuilder\Query\Query;
-use Hypefactors\ElasticBuilder\Core\Highlight;
 use Hypefactors\ElasticBuilder\Core\InnerHits;
+use Hypefactors\ElasticBuilder\Sort\SortInterface;
+use Hypefactors\ElasticBuilder\Query\QueryInterface;
+use Hypefactors\ElasticBuilder\Script\ScriptInterface;
 use Hypefactors\ElasticBuilder\Aggregation\Aggregation;
+use Hypefactors\ElasticBuilder\Highlight\HighlightInterface;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html
@@ -132,11 +134,11 @@ class ElasticBuilder
     /**
      * Allows to highlight search results on one or more fields.
      *
-     * @param \Hypefactors\ElasticBuilder\Core\Highlight $highlight
+     * @param \Hypefactors\ElasticBuilder\Highlight\HighlightInterface $highlight
      *
      * @return $this
      */
-    public function highlight(Highlight $highlight): self
+    public function highlight(HighlightInterface $highlight): self
     {
         $this->body['highlight'] = $highlight;
 
@@ -160,12 +162,12 @@ class ElasticBuilder
     /**
      * Allows to return a script evaluation (based on different fields) for each hit.
      *
-     * @param string                                  $fieldName
-     * @param \Hypefactors\ElasticBuilder\Core\Script $script
+     * @param string                                             $fieldName
+     * @param \Hypefactors\ElasticBuilder\Script\ScriptInterface $script
      *
      * @return $this
      */
-    public function scriptField(string $fieldName, Script $script): self
+    public function scriptField(string $fieldName, ScriptInterface $script): self
     {
         if (! isset($this->body['script_fields'])) {
             $this->body['script_fields'] = [];
@@ -219,7 +221,7 @@ class ElasticBuilder
         $validTypes = ['dfs_query_then_fetch', 'query_then_fetch'];
 
         if (! in_array($typeLower, $validTypes)) {
-            throw new RuntimeException("The [{$type}] type is not valid!");
+            throw new InvalidArgumentException("The [{$type}] type is not valid!");
         }
 
         $this->body['search_type'] = $typeLower;
@@ -242,13 +244,27 @@ class ElasticBuilder
     }
 
     /**
-     * Allows you to add a sort for a specific field.
+     * When sorting on a field, scores are not computed. By setting track_scores to true, scores will still be computed and tracked.
      *
-     * @param \Hypefactors\ElasticBuilder\Core\Sort $sort
+     * @param bool $status
      *
      * @return $this
      */
-    public function sort(Sort $sort): self
+    public function trackScore(bool $status): self
+    {
+        $this->body['track_scores'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Allows you to add a sort for a specific field.
+     *
+     * @param \Hypefactors\ElasticBuilder\Sort\SortInterface $sort
+     *
+     * @return $this
+     */
+    public function sort(SortInterface $sort): self
     {
         if (! isset($this->body['sort'])) {
             $this->body['sort'] = [];
@@ -284,7 +300,7 @@ class ElasticBuilder
      */
     public function source($source): self
     {
-        $this->body['source'] = $source;
+        $this->body['_source'] = $source;
 
         return $this;
     }
@@ -296,7 +312,7 @@ class ElasticBuilder
         return $this;
     }
 
-    public function query(Query $query): self
+    public function query(QueryInterface $query): self
     {
         $this->query += $query->toArray();
 
@@ -324,7 +340,9 @@ class ElasticBuilder
         //     $response['suggest'] = $this->suggesters;
         // }
 
-        return Util::recursivetoArray($response);
+        return [
+            'body' => Util::recursivetoArray($response),
+        ];
     }
 
     /**

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\FullText;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Query\Query;
 
 /**
@@ -86,7 +88,7 @@ class MatchQuery extends Query
      *
      * @param string $operator
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return $this
      */
@@ -97,7 +99,7 @@ class MatchQuery extends Query
         $validOperators = ['and', 'or'];
 
         if (! in_array($operatorLower, $validOperators)) {
-            throw new RuntimeException("The [{$operator}] operator is invalid.");
+            throw new InvalidArgumentException("The [{$operator}] operator is invalid.");
         }
 
         $this->body['operator'] = $operatorLower;
@@ -129,18 +131,18 @@ class MatchQuery extends Query
     /**
      * Returns the DSL Query as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         if (! $this->field) {
-            throw new RuntimeException('The "field" is required!');
+            throw new InvalidArgumentException('The "field" is required!');
         }
 
         if (! isset($this->body['query'])) {
-            throw new RuntimeException('The "query" is required!');
+            throw new InvalidArgumentException('The "query" is required!');
         }
 
         $body = $this->body;

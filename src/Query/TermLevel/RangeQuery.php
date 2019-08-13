@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\TermLevel;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Query\Query;
 
 /**
@@ -154,7 +156,7 @@ class RangeQuery extends Query
      *
      * @param string $relation
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return $this
      */
@@ -165,7 +167,7 @@ class RangeQuery extends Query
         $validRelations = ['INTERSECTS', 'CONTAINS', 'DISJOINT', 'WITHIN'];
 
         if (! in_array($relationUpper, $validRelations)) {
-            throw new RuntimeException("The [{$relation}] relation is invalid!");
+            throw new InvalidArgumentException("The [{$relation}] relation is invalid!");
         }
 
         $this->body['relation'] = $relationUpper;
@@ -190,14 +192,14 @@ class RangeQuery extends Query
     /**
      * Returns the DSL Query as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         if (! $this->field) {
-            throw new RuntimeException('The "field" is required!');
+            throw new InvalidArgumentException('The "field" is required!');
         }
 
         return [

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Aggregation;
 
-use RuntimeException;
+use InvalidArgumentException;
 
-abstract class Aggregation
+abstract class Aggregation implements AggregationInterface
 {
     /**
      * The Aggregation name.
@@ -35,27 +37,29 @@ abstract class Aggregation
     protected $nestedAggregations = [];
 
     /**
-     * Sets the Aggregation name.
-     *
-     * @param string $name
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    public function name(string $name): self
+    public function name(string $name): AggregationInterface
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function aggregation(Aggregation $aggregation): self
+    /**
+     * {@inheritdoc}
+     */
+    public function aggregation(AggregationInterface $aggregation): AggregationInterface
     {
         $this->nestedAggregations[] = $aggregation;
 
         return $this;
     }
 
-    public function aggregations(array $aggregations): self
+    /**
+     * {@inheritdoc}
+     */
+    public function aggregations(array $aggregations): AggregationInterface
     {
         foreach ($aggregations as $aggregation) {
             $this->aggregation($aggregation);
@@ -65,13 +69,9 @@ abstract class Aggregation
     }
 
     /**
-     * Sets the Aggregation Metadata.
-     *
-     * @param array $meta
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    public function meta(array $meta): self
+    public function meta(array $meta): AggregationInterface
     {
         $this->meta = $meta;
 
@@ -79,21 +79,12 @@ abstract class Aggregation
     }
 
     /**
-     * Returns the Aggregation body.
-     *
-     * @return array
-     */
-    abstract public function getBody(): array;
-
-    /**
-     * Returns the DSL Query as an array.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toArray(): array
     {
         if (! $this->name) {
-            throw new RuntimeException('The Aggregation "name" is required!');
+            throw new InvalidArgumentException('The Aggregation "name" is required!');
         }
 
         $body = $this->getBody();
@@ -115,5 +106,13 @@ abstract class Aggregation
         return [
             $this->name => $body,
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toJson(int $options = 0): string
+    {
+        return json_encode($this->toArray(), $options);
     }
 }

@@ -1,23 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\Compound;
 
 use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\Query;
+use Hypefactors\ElasticBuilder\Query\QueryInterface;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-boosting-query.html
  */
 class BoostingQuery extends Query
 {
-    public function positive(Query $query): self
+    public function positive(QueryInterface $query): self
     {
         $this->body['positive'] = $query;
 
         return $this;
     }
 
-    public function negative(Query $query): self
+    public function negative(QueryInterface $query): self
     {
         $this->body['negative'] = $query;
 

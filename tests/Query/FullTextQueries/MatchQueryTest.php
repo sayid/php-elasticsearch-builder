@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Tests\Query\FullText;
 
-use RuntimeException;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Hypefactors\ElasticBuilder\Query\FullText\MatchQuery;
 
@@ -187,7 +189,7 @@ class MatchQueryTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_when_passing_an_invalid_operator()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The [foo] operator is invalid.');
 
         $query = new MatchQuery();
@@ -197,7 +199,7 @@ class MatchQueryTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_if_the_field_is_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The "field" is required!');
 
         $query = new MatchQuery();
@@ -207,7 +209,7 @@ class MatchQueryTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_if_the_query_is_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The "query" is required!');
 
         $query = new MatchQuery();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Tests\Query\Compound;
 
 use PHPUnit\Framework\TestCase;

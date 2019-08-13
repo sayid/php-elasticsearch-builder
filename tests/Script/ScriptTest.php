@@ -1,10 +1,12 @@
 <?php
 
-namespace Hypefactors\ElasticBuilder\Tests\Core;
+declare(strict_types=1);
 
-use RuntimeException;
+namespace Hypefactors\ElasticBuilder\Tests\Script;
+
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Hypefactors\ElasticBuilder\Core\Script;
+use Hypefactors\ElasticBuilder\Script\Script;
 
 class ScriptTest extends TestCase
 {
@@ -139,7 +141,7 @@ JSON;
     /** @test */
     public function an_exception_will_be_thrown_if_the_source_or_id_are_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The "source" or "id" is required!');
 
         $script = new Script();
@@ -150,7 +152,7 @@ JSON;
     /** @test */
     public function an_exception_will_be_thrown_if_both_source_ad_id_are_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Passing both "source" and "id" at the same time is not allowed.');
 
         $script = new Script();

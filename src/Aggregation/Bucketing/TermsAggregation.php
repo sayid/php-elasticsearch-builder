@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Aggregation\Bucketing;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Core\Util;
-use Hypefactors\ElasticBuilder\Core\Script;
+use Hypefactors\ElasticBuilder\Script\ScriptInterface;
 use Hypefactors\ElasticBuilder\Aggregation\Aggregation;
 
 /**
@@ -26,7 +28,7 @@ class TermsAggregation extends Aggregation
         $validModes = ['breadth_first', 'depth_first'];
 
         if (! in_array($modeLower, $validModes)) {
-            throw new RuntimeException("The [{$mode}] mode is not valid!");
+            throw new InvalidArgumentException("The [{$mode}] mode is not valid!");
         }
 
         $this->body['collect_mode'] = $modeLower;
@@ -45,7 +47,7 @@ class TermsAggregation extends Aggregation
         return $this;
     }
 
-    public function script(Script $script): self
+    public function script(ScriptInterface $script): self
     {
         $this->body['script'] = $script;
 
@@ -115,7 +117,7 @@ class TermsAggregation extends Aggregation
         $validHints = ['map', 'global_ordinals', 'global_ordinals_hash', 'global_ordinals_low_cardinality'];
 
         if (! in_array($hintLower, $validHints)) {
-            throw new RuntimeException("The [{$hint}] hint is not valid!");
+            throw new InvalidArgumentException("The [{$hint}] hint is not valid!");
         }
 
         $this->body['execution_hint'] = $hintLower;
@@ -126,7 +128,7 @@ class TermsAggregation extends Aggregation
     public function getBody(): array
     {
         if (! isset($this->body['field'])) {
-            throw new RuntimeException('The "field" is required!');
+            throw new InvalidArgumentException('The "field" is required!');
         }
 
         return [

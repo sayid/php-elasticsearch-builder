@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Tests\Query\TermLevel;
 
 use PHPUnit\Framework\TestCase;

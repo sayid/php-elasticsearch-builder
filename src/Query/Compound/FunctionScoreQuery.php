@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\Compound;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\Query;
+use Hypefactors\ElasticBuilder\Query\QueryInterface;
 use Hypefactors\ElasticBuilder\Query\Compound\ScoreFunctions\ScoreFunction;
 
 /**
@@ -12,7 +15,7 @@ use Hypefactors\ElasticBuilder\Query\Compound\ScoreFunctions\ScoreFunction;
  */
 class FunctionScoreQuery extends Query
 {
-    public function query(Query $query): self
+    public function query(QueryInterface $query): self
     {
         $this->body['query'] = $query;
 
@@ -26,7 +29,7 @@ class FunctionScoreQuery extends Query
         $validModes = ['multiply', 'sum', 'avg', 'first', 'max', 'min'];
 
         if (! in_array($modeLower, $validModes)) {
-            throw new RuntimeException("The [{$mode}] mode is invalid.");
+            throw new InvalidArgumentException("The [{$mode}] mode is invalid.");
         }
 
         $this->body['score_mode'] = $modeLower;
@@ -41,7 +44,7 @@ class FunctionScoreQuery extends Query
         $validModes = ['multiply', 'replace', 'sum', 'avg', 'max', 'min'];
 
         if (! in_array($modeLower, $validModes)) {
-            throw new RuntimeException("The [{$mode}] mode is invalid.");
+            throw new InvalidArgumentException("The [{$mode}] mode is invalid.");
         }
 
         $this->body['boost_mode'] = $modeLower;
@@ -82,14 +85,14 @@ class FunctionScoreQuery extends Query
     /**
      * Returns the DSL Query as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         if (! isset($this->body['field'])) {
-            throw new RuntimeException('The "field" is required!');
+            throw new InvalidArgumentException('The "field" is required!');
         }
 
         return [

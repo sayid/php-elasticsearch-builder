@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Tests\Aggregation\Bucketing;
 
-use RuntimeException;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Hypefactors\ElasticBuilder\Core\Script;
+use Hypefactors\ElasticBuilder\Script\Script;
 use Hypefactors\ElasticBuilder\Aggregation\Bucketing\TermsAggregation;
 
 class TermsAggregationTest extends TestCase
@@ -374,7 +376,7 @@ class TermsAggregationTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_if_the_name_is_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The Aggregation "name" is required!');
 
         $aggregation = new TermsAggregation();
@@ -384,7 +386,7 @@ class TermsAggregationTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_if_the_field_is_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The "field" is required!');
 
         $aggregation = new TermsAggregation();
@@ -395,7 +397,7 @@ class TermsAggregationTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_if_the_collect_mode_is_invalid_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The [something] mode is not valid!');
 
         $aggregation = new TermsAggregation();
@@ -408,7 +410,7 @@ class TermsAggregationTest extends TestCase
     /** @test */
     public function an_exception_will_be_thrown_if_the_execution_hint_is_invalid_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The [something] hint is not valid!');
 
         $aggregation = new TermsAggregation();

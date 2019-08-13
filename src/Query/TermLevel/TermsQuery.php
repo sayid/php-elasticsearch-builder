@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\TermLevel;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Query\Query;
 
 /**
@@ -149,18 +151,18 @@ class TermsQuery extends Query
     /**
      * Returns the DSL Query as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         if (! $this->field) {
-            throw new RuntimeException('The "field" is required!');
+            throw new InvalidArgumentException('The "field" is required!');
         }
 
         if (empty($this->values) && empty($this->termsLookup)) {
-            throw new RuntimeException('The "values" are required!');
+            throw new InvalidArgumentException('The "values" are required!');
         }
 
         if (count($this->termsLookup) > 0) {

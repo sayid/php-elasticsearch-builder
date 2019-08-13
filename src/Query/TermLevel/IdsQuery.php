@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\TermLevel;
 
-use RuntimeException;
+use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\Query;
 
@@ -42,18 +44,18 @@ class IdsQuery extends Query
     /**
      * Returns the DSL Query as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         if (! isset($this->body['values'])) {
-            throw new RuntimeException('The "values" are required!');
+            throw new InvalidArgumentException('The "values" are required!');
         }
 
         if (empty($this->body['values'])) {
-            throw new RuntimeException('The "values" cannot be empty!');
+            throw new InvalidArgumentException('The "values" cannot be empty!');
         }
 
         return [

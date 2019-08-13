@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Tests\Query\TermLevel;
 
-use RuntimeException;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Hypefactors\ElasticBuilder\Query\TermLevel\RegexpQuery;
 
@@ -297,7 +299,7 @@ JSON;
     /** @test */
     public function an_exception_will_be_thrown_if_there_are_invalid_flags()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The given flags are invalid: FOO, BAR');
 
         $query = new RegexpQuery();
@@ -307,7 +309,7 @@ JSON;
     /** @test */
     public function an_exception_will_be_thrown_if_the_field_is_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The "field" is required!');
 
         $query = new RegexpQuery();
@@ -317,7 +319,7 @@ JSON;
     /** @test */
     public function an_exception_will_be_thrown_if_the_value_is_not_set_when_building_the_query()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The "value" is required!');
 
         $query = new RegexpQuery();

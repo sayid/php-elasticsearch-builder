@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query;
 
-abstract class Query
+abstract class Query implements QueryInterface
 {
     /**
      * The DSL Query body.
@@ -12,13 +14,9 @@ abstract class Query
     protected $body = [];
 
     /**
-     * Sets the boost value to increase or decrease the relevance scores of this query.
-     *
-     * @param float $factor
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    public function boost(float $factor): self
+    public function boost(float $factor): QueryInterface
     {
         $this->body['boost'] = $factor;
 
@@ -26,13 +24,9 @@ abstract class Query
     }
 
     /**
-     * Sets the query name.
-     *
-     * @param string $name
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    public function name(string $name): self
+    public function name(string $name): QueryInterface
     {
         $this->body['_name'] = $name;
 
@@ -40,18 +34,7 @@ abstract class Query
     }
 
     /**
-     * Returns the DSL Query as an array.
-     *
-     * @return array
-     */
-    abstract public function toArray(): array;
-
-    /**
-     * Returns the query in JSON format.
-     *
-     * @param int $options
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function toJson(int $options = 0): string
     {

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Core;
+
+use Hypefactors\ElasticBuilder\Sort\SortInterface;
+use Hypefactors\ElasticBuilder\Highlight\HighlightInterface;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html#request-body-search-inner-hits
  */
-class InnerHits
+final class InnerHits
 {
     /**
      * The body response.
@@ -60,11 +65,11 @@ class InnerHits
     /**
      * How the inner hits should be sorted per inner_hits.
      *
-     * @param \Hypefactors\ElasticBuilder\Core\Sort $sort
+     * @param \Hypefactors\ElasticBuilder\Sort\SortInterface $sort
      *
      * @return $this
      */
-    public function sort(Sort $sort): self
+    public function sort(SortInterface $sort): self
     {
         if (! isset($this->body['sort'])) {
             $this->body['sort'] = [];
@@ -84,7 +89,7 @@ class InnerHits
         return $this;
     }
 
-    public function highlight(Highlight $highlight): self
+    public function highlight(HighlightInterface $highlight): self
     {
         $this->body['highlight'] = $highlight;
 

@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\Compound;
 
 use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\Query;
+use Hypefactors\ElasticBuilder\Query\QueryInterface;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-constant-score-query.html
  */
 class ConstantScoreQuery extends Query
 {
-    public function filter(Query $query): self
+    public function filter(QueryInterface $query): self
     {
         $this->body['filter'] = $query;
 

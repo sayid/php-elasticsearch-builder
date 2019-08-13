@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Tests;
 
 use stdClass;
 use PHPUnit\Framework\TestCase;
-use Hypefactors\ElasticBuilder\Core\Sort;
-use Hypefactors\ElasticBuilder\Core\Script;
-use Hypefactors\ElasticBuilder\Core\Highlight;
+use Hypefactors\ElasticBuilder\Sort\Sort;
+use Hypefactors\ElasticBuilder\Script\Script;
 use Hypefactors\ElasticBuilder\ElasticBuilder;
+use Hypefactors\ElasticBuilder\Highlight\Highlight;
 use Hypefactors\ElasticBuilder\Query\Compound\BoolQuery;
 use Hypefactors\ElasticBuilder\Query\TermLevel\TermQuery;
 use Hypefactors\ElasticBuilder\Aggregation\Bucketing\TermsAggregation;
@@ -21,8 +23,10 @@ class ElasticBuilderTest extends TestCase
         $builder->docValueField('my-field');
 
         $expected = [
-            'docvalue_fields' => [
-                'my-field',
+            'body' => [
+                'docvalue_fields' => [
+                    'my-field',
+                ],
             ],
         ];
 
@@ -36,10 +40,12 @@ class ElasticBuilderTest extends TestCase
         $builder->docValueField('my-field', 'epoch_millis');
 
         $expected = [
-            'docvalue_fields' => [
-                [
-                    'field'  => 'my-field',
-                    'format' => 'epoch_millis',
+            'body' => [
+                'docvalue_fields' => [
+                    [
+                        'field'  => 'my-field',
+                        'format' => 'epoch_millis',
+                    ],
                 ],
             ],
         ];
@@ -54,7 +60,9 @@ class ElasticBuilderTest extends TestCase
         $builder->explain(true);
 
         $expected = [
-            'explain' => true,
+            'body' => [
+                'explain' => true,
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -67,8 +75,10 @@ class ElasticBuilderTest extends TestCase
         $builder->collapse('my-field');
 
         $expected = [
-            'collapse' => [
-                'field' => 'my-field',
+            'body' => [
+                'collapse' => [
+                    'field' => 'my-field',
+                ],
             ],
         ];
 
@@ -82,7 +92,9 @@ class ElasticBuilderTest extends TestCase
         $builder->from('id-123');
 
         $expected = [
-            'from' => 'id-123',
+            'body' => [
+                'from' => 'id-123',
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -95,7 +107,9 @@ class ElasticBuilderTest extends TestCase
         $builder->size(20);
 
         $expected = [
-            'size' => 20,
+            'body' => [
+                'size' => 20,
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -114,10 +128,12 @@ class ElasticBuilderTest extends TestCase
         $builder->highlight($highlight);
 
         $expected = [
-            'highlight' => [
-                'fields' => [
-                    'field-a' => new stdClass(),
-                    'field-b' => new stdClass(),
+            'body' => [
+                'highlight' => [
+                    'fields' => [
+                        'field-a' => new stdClass(),
+                        'field-b' => new stdClass(),
+                    ],
                 ],
             ],
         ];
@@ -132,7 +148,9 @@ class ElasticBuilderTest extends TestCase
         $builder->minScore(20);
 
         $expected = [
-            'min_score' => 20,
+            'body' => [
+                'min_score' => 20,
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -148,9 +166,11 @@ class ElasticBuilderTest extends TestCase
         $builder->scriptField('my-field', $script);
 
         $expected = [
-            'script_fields' => [
-                'my-field' => [
-                    'source' => 'script source',
+            'body' => [
+                'script_fields' => [
+                    'my-field' => [
+                        'source' => 'script source',
+                    ],
                 ],
             ],
         ];
@@ -165,7 +185,9 @@ class ElasticBuilderTest extends TestCase
         $builder->searchAfter([123, 456]);
 
         $expected = [
-            'search_after' => [123, 456],
+            'body' => [
+                'search_after' => [123, 456],
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -178,7 +200,9 @@ class ElasticBuilderTest extends TestCase
         $builder->timeout(500);
 
         $expected = [
-            'timeout' => 500,
+            'body' => [
+                'timeout' => 500,
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -191,7 +215,9 @@ class ElasticBuilderTest extends TestCase
         $builder->searchType('dfs_query_then_fetch');
 
         $expected = [
-            'search_type' => 'dfs_query_then_fetch',
+            'body' => [
+                'search_type' => 'dfs_query_then_fetch',
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -204,7 +230,9 @@ class ElasticBuilderTest extends TestCase
         $builder->terminateAfter(40);
 
         $expected = [
-            'terminate_after' => 40,
+            'body' => [
+                'terminate_after' => 40,
+            ],
         ];
 
         $this->assertSame($expected, $builder->toArray());
@@ -221,9 +249,9 @@ class ElasticBuilderTest extends TestCase
         $builder->sort($sort);
 
         $expected = [
-            'sort' => [
-                [
-                    'my-field' => 'desc',
+            'body' => [
+                'sort' => [
+                    ['my-field' => 'desc'],
                 ],
             ],
         ];
@@ -235,11 +263,11 @@ class ElasticBuilderTest extends TestCase
     public function add_multiple_sorts()
     {
         $sort1 = new Sort();
-        $sort1->field('my-field');
+        $sort1->field('my-field-1');
         $sort1->order('desc');
 
         $sort2 = new Sort();
-        $sort2->field('my-field');
+        $sort2->field('my-field-2');
         $sort2->order('desc');
         $sort2->mode('avg');
 
@@ -247,14 +275,14 @@ class ElasticBuilderTest extends TestCase
         $builder->sorts([$sort1, $sort2]);
 
         $expected = [
-            'sort' => [
-                [
-                    'my-field' => 'desc',
-                ],
-                [
-                    'my-field' => [
-                        'order' => 'desc',
-                        'mode'  => 'avg',
+            'body' => [
+                'sort' => [
+                    ['my-field-1' => 'desc'],
+                    [
+                        'my-field-2' => [
+                            'order' => 'desc',
+                            'mode'  => 'avg',
+                        ],
                     ],
                 ],
             ],
@@ -273,9 +301,11 @@ class ElasticBuilderTest extends TestCase
         ]);
 
         $expected = [
-            'source' => [
-                'field-1',
-                'field-2',
+            'body' => [
+                '_source' => [
+                    'field-1',
+                    'field-2',
+                ],
             ],
         ];
 
@@ -297,17 +327,19 @@ class ElasticBuilderTest extends TestCase
         $builder->query($termQuery);
 
         $expected = [
-            'query' => [
-                'bool' => [
-                    'filter' => [
-                        'term' => [
-                            'user' => 'john',
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            'term' => [
+                                'user' => 'john',
+                            ],
                         ],
                     ],
+                    'term' => [
+                        'user' => 'john',
+                    ],
                 ],
-                'term' => [
-                    'user' => 'john',
-                ]
             ],
         ];
 
@@ -330,15 +362,17 @@ class ElasticBuilderTest extends TestCase
         $builder->aggregation($aggregation2);
 
         $expected = [
-            'aggs' => [
-                'genres' => [
-                    'terms' => [
-                        'field' => 'genre',
+            'body' => [
+                'aggs' => [
+                    'genres' => [
+                        'terms' => [
+                            'field' => 'genre',
+                        ],
                     ],
-                ],
-                'colors' => [
-                    'terms' => [
-                        'field' => 'my-color',
+                    'colors' => [
+                        'terms' => [
+                            'field' => 'my-color',
+                        ],
                     ],
                 ],
             ],

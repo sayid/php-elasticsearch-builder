@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\Compound;
 
 use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\Query;
+use Hypefactors\ElasticBuilder\Query\QueryInterface;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-dis-max-query.html
@@ -42,7 +45,7 @@ class DisMaxQuery extends Query
         ];
     }
 
-    protected function addQuery(Query $query): self
+    protected function addQuery(QueryInterface $query): self
     {
         $this->body['queries'][] = $query;
 

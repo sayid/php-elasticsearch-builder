@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Hypefactors\ElasticBuilder\Query\TermLevel;
+namespace Hypefactors\ElasticBuilder\Query\FullText;
 
 use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Query\Query;
 
 /**
- * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase.html
  */
-class PrefixQuery extends Query
+class MatchPhraseQuery extends Query
 {
     /**
      * The field to search on.
@@ -18,6 +18,21 @@ class PrefixQuery extends Query
      * @var string
      */
     protected $field;
+
+    /**
+     * Constructor.
+     *
+     * @param string $field
+     * @param mixed  $query
+     *
+     * @return void
+     */
+    public function __construct(string $field = null, $query = null)
+    {
+        $field && $this->field($field);
+
+        $query && $this->query($query);
+    }
 
     /**
      * Sets the field to search on.
@@ -33,30 +48,9 @@ class PrefixQuery extends Query
         return $this;
     }
 
-    /**
-     * Method used to rewrite the query.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function rewrite($value)
+    public function query($query): self
     {
-        $this->body['rewrite'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Sets the value to search with.
-     *
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function value($value)
-    {
-        $this->body['value'] = $value;
+        $this->body['query'] = $query;
 
         return $this;
     }
@@ -74,18 +68,18 @@ class PrefixQuery extends Query
             throw new InvalidArgumentException('The "field" is required!');
         }
 
-        if (! isset($this->body['value'])) {
-            throw new InvalidArgumentException('The "value" is required!');
+        if (! isset($this->body['query'])) {
+            throw new InvalidArgumentException('The "query" is required!');
         }
 
         $body = $this->body;
 
         if (count($body) === 1) {
-            $body = $body['value'];
+            $body = $body['query'];
         }
 
         return [
-            'prefix' => [
+            'match_phrase' => [
                 $this->field => $body,
             ],
         ];

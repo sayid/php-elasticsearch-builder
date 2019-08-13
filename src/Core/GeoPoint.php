@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Core;
 
-use RuntimeException;
+use InvalidArgumentException;
 
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
  */
-class GeoPoint
+final class GeoPoint
 {
     protected $options = [];
 
@@ -32,7 +34,7 @@ class GeoPoint
      *
      * @param string $distanceType
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return $this
      */
@@ -43,7 +45,7 @@ class GeoPoint
         $validOperators = ['arc', 'plan'];
 
         if (! in_array($distanceTypeLower, $validOperators)) {
-            throw new RuntimeException("The [{$distanceType}] distance type is invalid.");
+            throw new InvalidArgumentException("The [{$distanceType}] distance type is invalid.");
         }
 
         $this->options['distance_type'] = $distanceTypeLower;
@@ -89,18 +91,18 @@ class GeoPoint
     /**
      * Returns the DSL Geo Point as an array.
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return array
      */
     public function toArray(): array
     {
         // if (! isset($this->options['lat'])) {
-        //     throw new RuntimeException('The latitude needs to be set!');
+        //     throw new InvalidArgumentException('The latitude needs to be set!');
         // }
 
         // if (! isset($this->options['lon'])) {
-        //     throw new RuntimeException('The longitude needs to be set!');
+        //     throw new InvalidArgumentException('The longitude needs to be set!');
         // }
 
         return $this->options;

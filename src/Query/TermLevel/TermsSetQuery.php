@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Query\TermLevel;
 
 use Hypefactors\ElasticBuilder\Query\Query;

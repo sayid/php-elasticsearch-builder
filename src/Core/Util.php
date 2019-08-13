@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hypefactors\ElasticBuilder\Core;
 
 use stdClass;
 
-class Util
+final class Util
 {
     public static function arrayWrap($values)
     {

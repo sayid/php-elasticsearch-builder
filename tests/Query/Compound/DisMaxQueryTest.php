@@ -21,7 +21,7 @@ class DisMaxQueryTest extends TestCase
         $query->queries($termQuery);
         $query->tieBreaker(0.7);
 
-        $expectedQuery = [
+        $expectedArray = [
             'dis_max' => [
                 'queries' => [
                     [
@@ -34,6 +34,6 @@ class DisMaxQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 }

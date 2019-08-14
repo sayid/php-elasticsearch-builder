@@ -11,30 +11,39 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\FuzzyQuery;
 class FuzzyQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
 
-        $expectedQuery = [
+        $expectedArray = [
             'fuzzy' => [
                 'user' => 'ki',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $expectedJson = <<<JSON
+{
+    "fuzzy": {
+        "user": "ki"
+    }
+}
+JSON;
+
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->boost(1.0);
 
-        $expectedQuery = [
+        $expectedArray = [
             'fuzzy' => [
                 'user' => [
                     'value' => 'ki',
@@ -43,156 +52,7 @@ class FuzzyQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->name('my-query-name');
-
-        $expectedQuery = [
-            'fuzzy' => [
-                'user' => [
-                    'value' => 'ki',
-                    '_name' => 'my-query-name',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_fuziness_parameter()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->fuzziness(2);
-
-        $expectedQuery = [
-            'fuzzy' => [
-                'user' => [
-                    'value'     => 'ki',
-                    'fuzziness' => 2,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_max_expansions_parameter()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->maxExpansions(100);
-
-        $expectedQuery = [
-            'fuzzy' => [
-                'user' => [
-                    'value'          => 'ki',
-                    'max_expansions' => 100,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_prefix_length_parameter()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->prefixLength(1);
-
-        $expectedQuery = [
-            'fuzzy' => [
-                'user' => [
-                    'value'         => 'ki',
-                    'prefix_length' => 1,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_transpositions_parameter_to_true()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->transpositions(true);
-
-        $expectedQuery = [
-            'fuzzy' => [
-                'user' => [
-                    'value'          => 'ki',
-                    'transpositions' => true,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_transpositions_parameter_to_false()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->transpositions(false);
-
-        $expectedQuery = [
-            'fuzzy' => [
-                'user' => [
-                    'value'          => 'ki',
-                    'transpositions' => false,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-
-        $expectedQuery = <<<JSON
-{
-    "fuzzy": {
-        "user": "ki"
-    }
-}
-JSON;
-
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json_with_the_boost_factor_parameter()
-    {
-        $query = new FuzzyQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->boost(1.0);
-
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -203,18 +63,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->name('my-query-name');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'fuzzy' => [
+                'user' => [
+                    'value' => 'ki',
+                    '_name' => 'my-query-name',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -225,18 +95,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_fuziness_parameter()
+    public function it_builds_the_query_with_the_fuziness_parameter()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->fuzziness(2);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'fuzzy' => [
+                'user' => [
+                    'value'     => 'ki',
+                    'fuzziness' => 2,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -247,18 +127,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_max_expansions_parameter()
+    public function it_builds_the_query_with_the_max_expansions_parameter()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->maxExpansions(100);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'fuzzy' => [
+                'user' => [
+                    'value'          => 'ki',
+                    'max_expansions' => 100,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -269,18 +159,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_prefix_length_parameter()
+    public function it_builds_the_query_with_the_prefix_length_parameter()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->prefixLength(1);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'fuzzy' => [
+                'user' => [
+                    'value'         => 'ki',
+                    'prefix_length' => 1,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -291,18 +191,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_transpositions_parameter_set_to_true()
+    public function it_builds_the_query_with_transpositions_parameter_to_true()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->transpositions(true);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'fuzzy' => [
+                'user' => [
+                    'value'          => 'ki',
+                    'transpositions' => true,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -313,18 +223,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_transpositions_parameter_set_to_false()
+    public function it_builds_the_query_with_transpositions_parameter_to_false()
     {
         $query = new FuzzyQuery();
         $query->field('user');
         $query->value('ki');
         $query->transpositions(false);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'fuzzy' => [
+                'user' => [
+                    'value'          => 'ki',
+                    'transpositions' => false,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "fuzzy": {
         "user": {
@@ -335,7 +255,8 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

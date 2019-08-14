@@ -18,7 +18,7 @@ class ConstantScoreQueryTest extends TestCase
         $query = new ConstantScoreQuery();
         $query->filter($termQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'constant_score' => [
                 'filter' => [
                     'term' => [
@@ -28,6 +28,6 @@ class ConstantScoreQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 }

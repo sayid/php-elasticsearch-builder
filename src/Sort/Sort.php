@@ -177,26 +177,8 @@ final class Sort implements SortInterface
      */
     public function toArray(): array
     {
-        if (/*! $this->geoPoint &&*/ ! $this->script) {
-            if (empty($this->options)) {
-                return [
-                    $this->field => new stdClass(),
-                ];
-            }
-
-            if (count($this->options) === 1 && isset($this->options['order'])) {
-                return [
-                    $this->field => $this->options['order'],
-                ];
-            }
-
-            $response = [
-                $this->field => $this->options,
-            ];
-        }
-
         // if ($this->geoPoint) {
-        //     $response = [
+        //     return [
         //         '_geo_distance' => [
         //             $this->field => array_merge($this->geoPoint->toArray(), $this->options),
         //         ],
@@ -204,14 +186,28 @@ final class Sort implements SortInterface
         // }
 
         if ($this->script) {
-            $response = [
+            return [
                 '_script' => array_merge($this->options, [
                     'script' => $this->script->toArray(),
                 ]),
             ];
         }
 
-        return Util::recursivetoArray($response);
+        if (empty($this->options)) {
+            return [
+                $this->field => new stdClass(),
+            ];
+        }
+
+        if (count($this->options) === 1 && isset($this->options['order'])) {
+            return [
+                $this->field => $this->options['order'],
+            ];
+        }
+
+        return [
+            $this->field => Util::recursivetoArray($this->options),
+        ];
     }
 
     /**

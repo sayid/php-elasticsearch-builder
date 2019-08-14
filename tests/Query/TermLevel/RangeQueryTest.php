@@ -17,167 +17,13 @@ class RangeQueryTest extends TestCase
         $query->field('user');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'range' => [
                 'user' => [
                     'boost' => 1.5,
                 ],
             ],
         ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->name('my-query-name');
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    '_name' => 'my-query-name',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_less_than_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->lessThan(10);
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'lt' => 10,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_less_than_or_equal_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->lessThanEquals(10);
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'lte' => 10,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_greater_than_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->greaterThan(12);
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'gt' => 12,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_greater_than_or_equal_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->greaterThanEquals(12);
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'gte' => 12,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_format_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->format('yyyy-MM-dd');
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'format' => 'yyyy-MM-dd',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_relation_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->relation('INTERSECTS');
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'relation' => 'INTERSECTS',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_timezone_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->timezone('+01:00');
-
-        $expectedQuery = [
-            'range' => [
-                'user' => [
-                    'time_zone' => '+01:00',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json_with_the_boost_factor_parameter()
-    {
-        $query = new RangeQuery();
-        $query->field('user');
-        $query->boost(1.5);
 
         $expectedQuery = <<<JSON
 {
@@ -189,15 +35,24 @@ class RangeQueryTest extends TestCase
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_name_parameter()
+    public function it_builds_the_query_as_array_with_the_name_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->name('my-query-name');
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    '_name' => 'my-query-name',
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -209,15 +64,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_less_than_parameter()
+    public function it_builds_the_query_as_array_with_the_less_than_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->lessThan(10);
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'lt' => 10,
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -229,15 +93,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_less_than_or_equal_parameter()
+    public function it_builds_the_query_as_array_with_the_less_than_or_equal_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->lessThanEquals(10);
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'lte' => 10,
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -249,15 +122,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_greater_than_parameter()
+    public function it_builds_the_query_as_array_with_the_greater_than_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->greaterThan(12);
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'gt' => 12,
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -269,15 +151,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_greater_than_or_equal_parameter()
+    public function it_builds_the_query_as_array_with_the_greater_than_or_equal_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->greaterThanEquals(12);
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'gte' => 12,
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -289,15 +180,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_format_parameter()
+    public function it_builds_the_query_as_array_with_the_format_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->format('yyyy-MM-dd');
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'format' => 'yyyy-MM-dd',
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -309,15 +209,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_relation_parameter()
+    public function it_builds_the_query_as_array_with_the_relation_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->relation('INTERSECTS');
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'relation' => 'INTERSECTS',
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -329,15 +238,24 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_timezone_parameter()
+    public function it_builds_the_query_as_array_with_the_timezone_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
         $query->timezone('+01:00');
+
+        $expectedArray = [
+            'range' => [
+                'user' => [
+                    'time_zone' => '+01:00',
+                ],
+            ],
+        ];
 
         $expectedQuery = <<<JSON
 {
@@ -349,6 +267,7 @@ JSON;
 }
 JSON;
 
+        $this->assertSame($expectedArray, $query->toArray());
         $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
     }
 

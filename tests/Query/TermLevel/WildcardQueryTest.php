@@ -11,30 +11,39 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\WildcardQuery;
 class WildcardQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $query = new WildcardQuery();
         $query->field('user');
         $query->value('john');
 
-        $expectedQuery = [
+        $expectedArray = [
             'wildcard' => [
                 'user' => 'john',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $expectedJson = <<<JSON
+{
+    "wildcard": {
+        "user": "john"
+    }
+}
+JSON;
+
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new WildcardQuery();
         $query->field('user');
         $query->value('john');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'wildcard' => [
                 'user' => [
                     'value' => 'john',
@@ -43,56 +52,7 @@ class WildcardQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
-    {
-        $query = new WildcardQuery();
-        $query->field('user');
-        $query->value('john');
-        $query->name('my-query-name');
-
-        $expectedQuery = [
-            'wildcard' => [
-                'user' => [
-                    'value' => 'john',
-                    '_name' => 'my-query-name',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json()
-    {
-        $query = new WildcardQuery();
-        $query->field('user');
-        $query->value('john');
-
-        $expectedQuery = <<<JSON
-{
-    "wildcard": {
-        "user": "john"
-    }
-}
-JSON;
-
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json_with_the_boost_factor_parameter()
-    {
-        $query = new WildcardQuery();
-        $query->field('user');
-        $query->value('john');
-        $query->boost(1.5);
-
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "wildcard": {
         "user": {
@@ -103,18 +63,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new WildcardQuery();
         $query->field('user');
         $query->value('john');
         $query->name('my-query-name');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'wildcard' => [
+                'user' => [
+                    'value' => 'john',
+                    '_name' => 'my-query-name',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "wildcard": {
         "user": {
@@ -125,7 +95,8 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

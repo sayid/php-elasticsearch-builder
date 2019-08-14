@@ -11,128 +11,128 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\TermsQuery;
 class TermsQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_value()
+    public function it_builds_the_query_for_a_single_value()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->value('john');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => ['john'],
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_value_with_the_boost_factor_parameter()
+    public function it_builds_the_query_for_a_single_value_with_the_boost_factor_parameter()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->value('john');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user'  => ['john'],
                 'boost' => 1.5,
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_value_with_name_parameter()
+    public function it_builds_the_query_for_a_single_value_with_name_parameter()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->value('john');
         $query->name('my-query-name');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user'  => ['john'],
                 '_name' => 'my-query-name',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_values()
+    public function it_builds_the_query_for_multiple_values()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->values(['john', 'jane']);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => ['john', 'jane'],
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_values_with_the_boost_factor_parameter()
+    public function it_builds_the_query_for_multiple_values_with_the_boost_factor_parameter()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->values(['john', 'jane']);
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user'  => ['john', 'jane'],
                 'boost' => 1.5,
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_values_with_the_name_parameter()
+    public function it_builds_the_query_for_multiple_values_with_the_name_parameter()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->values(['john', 'jane']);
         $query->name('my-query-name');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user'  => ['john', 'jane'],
                 '_name' => 'my-query-name',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_values_and_removes_duplicated_values()
+    public function it_builds_the_query_for_multiple_values_and_removes_duplicated_values()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->values(['john', 'jane']);
         $query->value('john');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => ['john', 'jane'],
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_the_given_terms_lookup()
+    public function it_builds_the_query_for_the_given_terms_lookup()
     {
         $query = new TermsQuery();
         $query->field('user');
@@ -141,7 +141,7 @@ class TermsQueryTest extends TestCase
             'path'  => 'color',
         ]);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => [
                     'index' => 'my_index',
@@ -150,17 +150,17 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_an_index_term_lookup()
+    public function it_builds_the_query_for_an_index_term_lookup()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->index('my_index');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => [
                     'index' => 'my_index',
@@ -168,17 +168,17 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_an_id_term_lookup()
+    public function it_builds_the_query_for_an_id_term_lookup()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->id('2');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => [
                     'id' => '2',
@@ -186,17 +186,17 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_path_term_lookup()
+    public function it_builds_the_query_for_a_path_term_lookup()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->path('color');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => [
                     'path' => 'color',
@@ -204,17 +204,17 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_routing_term_lookup()
+    public function it_builds_the_query_for_a_routing_term_lookup()
     {
         $query = new TermsQuery();
         $query->field('user');
         $query->routing('something');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms' => [
                 'user' => [
                     'routing' => 'something',
@@ -222,7 +222,7 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */

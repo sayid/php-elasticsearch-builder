@@ -17,13 +17,13 @@ class MatchQueryTest extends TestCase
         $query->field('message');
         $query->query('this is a test');
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => 'this is a test',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query' => 'this is a test',
@@ -43,7 +43,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->name('my-query-name');
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query' => 'this is a test',
@@ -63,7 +63,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -74,7 +74,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->cutOffFrequency(0.001);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query'            => 'this is a test',
@@ -83,7 +83,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -94,7 +94,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->fuzziness(2);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query'     => 'this is a test',
@@ -103,7 +103,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -114,7 +114,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->lenient(true);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query'   => 'this is a test',
@@ -123,7 +123,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -134,7 +134,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->maxExpansions(5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query'          => 'this is a test',
@@ -143,7 +143,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -154,7 +154,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->prefixLength(5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query'         => 'this is a test',
@@ -163,7 +163,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -174,7 +174,7 @@ class MatchQueryTest extends TestCase
         $query->query('this is a test');
         $query->operator('and');
 
-        $expectedQuery = [
+        $expectedArray = [
             'match' => [
                 'message' => [
                     'query'    => 'this is a test',
@@ -183,7 +183,7 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */

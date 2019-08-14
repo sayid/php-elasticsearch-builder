@@ -20,7 +20,7 @@ class BoostingQueryTest extends TestCase
         $query = new BoostingQuery();
         $query->positive($termQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'boosting' => [
                 'positive' => [
                     'term' => [
@@ -30,7 +30,7 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class BoostingQueryTest extends TestCase
         $query = new BoostingQuery();
         $query->negative($termQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'boosting' => [
                 'negative' => [
                     'term' => [
@@ -53,7 +53,7 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -67,7 +67,7 @@ class BoostingQueryTest extends TestCase
         $query->positive($termQuery);
         $query->negative($termQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'boosting' => [
                 'positive' => [
                     'term' => [
@@ -82,7 +82,7 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -91,12 +91,12 @@ class BoostingQueryTest extends TestCase
         $query = new BoostingQuery();
         $query->negativeBoost(2);
 
-        $expectedQuery = [
+        $expectedArray = [
             'boosting' => [
                 'negative_boost' => 2,
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 }

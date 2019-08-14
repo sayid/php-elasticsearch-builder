@@ -21,7 +21,7 @@ class BoolQueryTest extends TestCase
         $query = new BoolQuery();
         $query->filter($termQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'bool' => [
                 'filter' => [
                     'term' => [
@@ -31,7 +31,7 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class BoolQueryTest extends TestCase
         $query = new BoolQuery();
         $query->must($existsQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'bool' => [
                 'must' => [
                     'exists' => [
@@ -53,7 +53,7 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -65,7 +65,7 @@ class BoolQueryTest extends TestCase
         $query = new BoolQuery();
         $query->mustNot($existsQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'bool' => [
                 'must_not' => [
                     'exists' => [
@@ -75,7 +75,7 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -87,7 +87,7 @@ class BoolQueryTest extends TestCase
         $query = new BoolQuery();
         $query->should($existsQuery);
 
-        $expectedQuery = [
+        $expectedArray = [
             'bool' => [
                 'should' => [
                     'exists' => [
@@ -97,7 +97,7 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -118,7 +118,7 @@ class BoolQueryTest extends TestCase
         $query->must($existsQuery1);
         $query->mustNot($existsQuery2);
 
-        $expectedQuery = [
+        $expectedArray = [
             'bool' => [
                 'must' => [
                     [
@@ -140,6 +140,6 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 }

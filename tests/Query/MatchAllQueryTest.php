@@ -10,66 +10,37 @@ use Hypefactors\ElasticBuilder\Query\MatchAllQuery;
 class MatchAllQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
-        $query         = new MatchAllQuery();
-        $expectedQuery = [
+        $query = new MatchAllQuery();
+
+        $expectedArray = [
             'match_all' => [],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
-    {
-        $query = new MatchAllQuery();
-        $query->boost(1.5);
-
-        $expectedQuery = [
-            'match_all' => [
-                'boost' => 1.5,
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
-    {
-        $query = new MatchAllQuery();
-        $query->name('my-query-name');
-
-        $expectedQuery = [
-            'match_all' => [
-                '_name' => 'my-query-name',
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json()
-    {
-        $query         = new MatchAllQuery();
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "match_all": []
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new MatchAllQuery();
         $query->boost(1.5);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'match_all' => [
+                'boost' => 1.5,
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "match_all": {
         "boost": 1.5
@@ -77,16 +48,23 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new MatchAllQuery();
         $query->name('my-query-name');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'match_all' => [
+                '_name' => 'my-query-name',
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "match_all": {
         "_name": "my-query-name"
@@ -94,6 +72,7 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 }

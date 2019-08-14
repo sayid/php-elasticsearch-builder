@@ -11,30 +11,39 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\RegexpQuery;
 class RegexpQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
 
-        $expectedQuery = [
+        $expectedArray = [
             'regexp' => [
                 'name.first' => 's.*',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $expectedJson = <<<JSON
+{
+    "regexp": {
+        "name.first": "s.*"
+    }
+}
+JSON;
+
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'regexp' => [
                 'name.first' => [
                     'value' => 's.*',
@@ -43,136 +52,7 @@ class RegexpQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-        $query->name('my-query-name');
-
-        $expectedQuery = [
-            'regexp' => [
-                'name.first' => [
-                    'value' => 's.*',
-                    '_name' => 'my-query-name',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_flags_parameter_from_a_string()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-        $query->flags('INTERSECTION|COMPLEMENT|EMPTY');
-
-        $expectedQuery = [
-            'regexp' => [
-                'name.first' => [
-                    'value' => 's.*',
-                    'flags' => 'INTERSECTION|COMPLEMENT|EMPTY',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_an_array_with_the_flags_parameter_from_an_array()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-        $query->flags(['INTERSECTION', 'COMPLEMENT', 'EMPTY']);
-
-        $expectedQuery = [
-            'regexp' => [
-                'name.first' => [
-                    'value' => 's.*',
-                    'flags' => 'INTERSECTION|COMPLEMENT|EMPTY',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_max_determinized_states_parameter()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-        $query->maxDeterminizedStates(5);
-
-        $expectedQuery = [
-            'regexp' => [
-                'name.first' => [
-                    'value'                   => 's.*',
-                    'max_determinized_states' => 5,
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_rewrite_parameter()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-        $query->rewrite('rewrite');
-
-        $expectedQuery = [
-            'regexp' => [
-                'name.first' => [
-                    'value'   => 's.*',
-                    'rewrite' => 'rewrite',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-
-        $expectedQuery = <<<JSON
-{
-    "regexp": {
-        "name.first": "s.*"
-    }
-}
-JSON;
-
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json_with_the_boost_factor_parameter()
-    {
-        $query = new RegexpQuery();
-        $query->field('name.first');
-        $query->value('s.*');
-        $query->boost(1.5);
-
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "regexp": {
         "name.first": {
@@ -183,18 +63,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
         $query->name('my-query-name');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'regexp' => [
+                'name.first' => [
+                    'value' => 's.*',
+                    '_name' => 'my-query-name',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "regexp": {
         "name.first": {
@@ -205,18 +95,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_json_as_an_with_the_flags_parameter_from_a_string()
+    public function it_builds_the_query_with_the_flags_parameter_from_a_string()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
         $query->flags('INTERSECTION|COMPLEMENT|EMPTY');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'regexp' => [
+                'name.first' => [
+                    'value' => 's.*',
+                    'flags' => 'INTERSECTION|COMPLEMENT|EMPTY',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "regexp": {
         "name.first": {
@@ -227,18 +127,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_flags_parameter_from_an_array()
+    public function it_builds_the_query_as_an_array_with_the_flags_parameter_from_an_array()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
         $query->flags(['INTERSECTION', 'COMPLEMENT', 'EMPTY']);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'regexp' => [
+                'name.first' => [
+                    'value' => 's.*',
+                    'flags' => 'INTERSECTION|COMPLEMENT|EMPTY',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "regexp": {
         "name.first": {
@@ -249,18 +159,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_max_determinized_states_parameter()
+    public function it_builds_the_query_with_the_max_determinized_states_parameter()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
         $query->maxDeterminizedStates(5);
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'regexp' => [
+                'name.first' => [
+                    'value'                   => 's.*',
+                    'max_determinized_states' => 5,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "regexp": {
         "name.first": {
@@ -271,18 +191,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_rewrite_parameter()
+    public function it_builds_the_query_with_the_rewrite_parameter()
     {
         $query = new RegexpQuery();
         $query->field('name.first');
         $query->value('s.*');
         $query->rewrite('rewrite');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'regexp' => [
+                'name.first' => [
+                    'value'   => 's.*',
+                    'rewrite' => 'rewrite',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "regexp": {
         "name.first": {
@@ -293,7 +223,8 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

@@ -17,13 +17,13 @@ class MatchPhraseQueryTest extends TestCase
         $query->field('message');
         $query->query('this is a test');
 
-        $expectedQuery = [
+        $expectedArray = [
             'match_phrase' => [
                 'message' => 'this is a test',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class MatchPhraseQueryTest extends TestCase
         $query->query('this is a test');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'match_phrase' => [
                 'message' => [
                     'query' => 'this is a test',
@@ -43,7 +43,7 @@ class MatchPhraseQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class MatchPhraseQueryTest extends TestCase
         $query->query('this is a test');
         $query->name('my-query-name');
 
-        $expectedQuery = [
+        $expectedArray = [
             'match_phrase' => [
                 'message' => [
                     'query' => 'this is a test',
@@ -63,7 +63,7 @@ class MatchPhraseQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */

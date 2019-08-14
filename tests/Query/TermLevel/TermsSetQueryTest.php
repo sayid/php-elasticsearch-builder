@@ -10,13 +10,13 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\TermsSetQuery;
 class TermsSetQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_term()
+    public function it_builds_the_query_for_a_single_term()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->term('a-value');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms' => ['a-value'],
@@ -24,18 +24,18 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_term_with_the_boost_factor_parameter()
+    public function it_builds_the_query_for_a_single_term_with_the_boost_factor_parameter()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->term('a-value');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms' => ['a-value'],
@@ -44,18 +44,18 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_term_with_the_name_parameter()
+    public function it_builds_the_query_for_a_single_term_with_the_name_parameter()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->term('a-value');
         $query->name('my-query-name');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms' => ['a-value'],
@@ -64,18 +64,18 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_term_with_the_minimum_should_match_field_1()
+    public function it_builds_the_query_for_a_single_term_with_the_minimum_should_match_field_1()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->term('value-a');
         $query->minimumShouldMatchField('required_matches');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms'                      => ['value-a'],
@@ -84,11 +84,11 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_a_single_term_with_the_minimum_should_match_field_2()
+    public function it_builds_the_query_for_a_single_term_with_the_minimum_should_match_field_2()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
@@ -97,7 +97,7 @@ class TermsSetQueryTest extends TestCase
             'source' => "Math.min(params.num_terms, doc['required_matches'].value)",
         ]);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms'                       => ['value-a'],
@@ -108,17 +108,17 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_terms()
+    public function it_builds_the_query_for_multiple_terms()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->terms(['value-a', 'value-b']);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms' => ['value-a', 'value-b'],
@@ -126,18 +126,18 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_terms_with_the_boost_factor_parameter()
+    public function it_builds_the_query_for_multiple_terms_with_the_boost_factor_parameter()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->terms(['value-a', 'value-b']);
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms' => ['value-a', 'value-b'],
@@ -146,18 +146,18 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_terms_with_the_name_parameter()
+    public function it_builds_the_query_for_multiple_terms_with_the_name_parameter()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->terms(['value-a', 'value-b']);
         $query->name('my-query-name');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms' => ['value-a', 'value-b'],
@@ -166,18 +166,18 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_terms_with_the_minimum_should_match_field_1()
+    public function it_builds_the_query_for_multiple_terms_with_the_minimum_should_match_field_1()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
         $query->terms(['value-a', 'value-b']);
         $query->minimumShouldMatchField('required_matches');
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms'                      => ['value-a', 'value-b'],
@@ -186,11 +186,11 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_for_multiple_terms_with_the_minimum_should_match_field_2()
+    public function it_builds_the_query_for_multiple_terms_with_the_minimum_should_match_field_2()
     {
         $query = new TermsSetQuery();
         $query->field('my_field');
@@ -199,7 +199,7 @@ class TermsSetQueryTest extends TestCase
             'source' => "Math.min(params.num_terms, doc['required_matches'].value)",
         ]);
 
-        $expectedQuery = [
+        $expectedArray = [
             'terms_set' => [
                 'my_field' => [
                     'terms'                       => ['value-a', 'value-b'],
@@ -210,6 +210,6 @@ class TermsSetQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $this->assertSame($expectedArray, $query->toArray());
     }
 }

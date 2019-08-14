@@ -11,30 +11,39 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\PrefixQuery;
 class PrefixQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $query = new PrefixQuery();
         $query->field('user');
         $query->value('ki');
 
-        $expectedQuery = [
+        $expectedArray = [
             'prefix' => [
                 'user' => 'ki',
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
+        $expectedJson = <<<JSON
+{
+    "prefix": {
+        "user": "ki"
+    }
+}
+JSON;
+
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new PrefixQuery();
         $query->field('user');
         $query->value('ki');
         $query->boost(1.5);
 
-        $expectedQuery = [
+        $expectedArray = [
             'prefix' => [
                 'user' => [
                     'value' => 'ki',
@@ -43,76 +52,7 @@ class PrefixQueryTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
-    {
-        $query = new PrefixQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->name('my-query-name');
-
-        $expectedQuery = [
-            'prefix' => [
-                'user' => [
-                    'value' => 'ki',
-                    '_name' => 'my-query-name',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_rewrite_parameter()
-    {
-        $query = new PrefixQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->rewrite('rewrite');
-
-        $expectedQuery = [
-            'prefix' => [
-                'user' => [
-                    'value'   => 'ki',
-                    'rewrite' => 'rewrite',
-                ],
-            ],
-        ];
-
-        $this->assertSame($expectedQuery, $query->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json()
-    {
-        $query = new PrefixQuery();
-        $query->field('user');
-        $query->value('ki');
-
-        $expectedQuery = <<<JSON
-{
-    "prefix": {
-        "user": "ki"
-    }
-}
-JSON;
-
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json_with_the_boost_factor_parameter()
-    {
-        $query = new PrefixQuery();
-        $query->field('user');
-        $query->value('ki');
-        $query->boost(1.5);
-
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "prefix": {
         "user": {
@@ -123,18 +63,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new PrefixQuery();
         $query->field('user');
         $query->value('ki');
         $query->name('my-query-name');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'prefix' => [
+                'user' => [
+                    'value' => 'ki',
+                    '_name' => 'my-query-name',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "prefix": {
         "user": {
@@ -145,18 +95,28 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_rewrite_parameter()
+    public function it_builds_the_query_with_the_rewrite_parameter()
     {
         $query = new PrefixQuery();
         $query->field('user');
         $query->value('ki');
         $query->rewrite('rewrite');
 
-        $expectedQuery = <<<JSON
+        $expectedArray = [
+            'prefix' => [
+                'user' => [
+                    'value'   => 'ki',
+                    'rewrite' => 'rewrite',
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "prefix": {
         "user": {
@@ -167,7 +127,8 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

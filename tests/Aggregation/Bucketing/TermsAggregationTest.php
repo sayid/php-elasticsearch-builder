@@ -12,13 +12,13 @@ use Hypefactors\ElasticBuilder\Aggregation\Bucketing\TermsAggregation;
 class TermsAggregationTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field' => 'genre',
@@ -26,11 +26,11 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_metadata_parameter()
+    public function it_builds_the_query_with_the_metadata_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
@@ -39,7 +39,7 @@ class TermsAggregationTest extends TestCase
             'foo' => 'bar',
         ]);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field' => 'genre',
@@ -50,18 +50,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_collect_mode_parameter()
+    public function it_builds_the_query_with_the_collect_mode_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->collectMode('breadth_first');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'        => 'genre',
@@ -70,18 +70,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_order_parameter()
+    public function it_builds_the_query_with_the_order_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->order('_count', 'asc');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field' => 'genre',
@@ -92,11 +92,11 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_script_parameter()
+    public function it_builds_the_query_with_the_script_parameter()
     {
         $script = new Script();
         $script->source('script source');
@@ -107,7 +107,7 @@ class TermsAggregationTest extends TestCase
         $aggregation->field('genre');
         $aggregation->script($script);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'  => 'genre',
@@ -119,18 +119,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_size_parameter()
+    public function it_builds_the_query_with_the_size_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->size(5);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field' => 'genre',
@@ -139,18 +139,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_shard_size_parameter()
+    public function it_builds_the_query_with_the_shard_size_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->shardSize(5);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'      => 'genre',
@@ -159,18 +159,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_show_term_doc_count_error_parameter()
+    public function it_builds_the_query_with_the_show_term_doc_count_error_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->showTermDocCountError(true);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'                     => 'genre',
@@ -179,18 +179,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_min_doc_count_parameter()
+    public function it_builds_the_query_with_the_min_doc_count_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->minDocCount(5);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'         => 'genre',
@@ -199,18 +199,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_shard_min_doc_count_parameter()
+    public function it_builds_the_query_with_the_shard_min_doc_count_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->shardMinDocCount(5);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'               => 'genre',
@@ -219,18 +219,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_include_parameter()
+    public function it_builds_the_query_with_the_include_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->include('.*sport.*');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'   => 'genre',
@@ -239,18 +239,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_exclude_parameter()
+    public function it_builds_the_query_with_the_exclude_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->exclude('.*sport.*');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'   => 'genre',
@@ -259,18 +259,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_missing_parameter()
+    public function it_builds_the_query_with_the_missing_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->missing('N/A');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'   => 'genre',
@@ -279,18 +279,18 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_execution_hint_parameter()
+    public function it_builds_the_query_with_the_execution_hint_parameter()
     {
         $aggregation = new TermsAggregation();
         $aggregation->name('genres');
         $aggregation->field('genre');
         $aggregation->executionHint('global_ordinals');
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field'          => 'genre',
@@ -299,7 +299,7 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation->toArray());
+        $this->assertSame($expectedArray, $aggregation->toArray());
     }
 
     /** @test */
@@ -315,7 +315,7 @@ class TermsAggregationTest extends TestCase
 
         $aggregation1->aggregation($aggregation2);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field' => 'genre',
@@ -330,7 +330,7 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation1->toArray());
+        $this->assertSame($expectedArray, $aggregation1->toArray());
     }
 
     /** @test */
@@ -350,7 +350,7 @@ class TermsAggregationTest extends TestCase
 
         $aggregation1->aggregations([$aggregation2, $aggregation3]);
 
-        $expected = [
+        $expectedArray = [
             'genres' => [
                 'terms' => [
                     'field' => 'genre',
@@ -370,7 +370,7 @@ class TermsAggregationTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $aggregation1->toArray());
+        $this->assertSame($expectedArray, $aggregation1->toArray());
     }
 
     /** @test */

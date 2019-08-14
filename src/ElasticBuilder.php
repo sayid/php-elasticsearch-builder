@@ -22,7 +22,7 @@ class ElasticBuilder
 
     protected $query = [];
 
-    protected $aggregates = [];
+    protected $aggregations = [];
 
     // protected $suggesters = [];
 
@@ -307,7 +307,16 @@ class ElasticBuilder
 
     public function aggregation(Aggregation $aggregation): self
     {
-        $this->aggregates += $aggregation->toArray();
+        $this->aggregations += $aggregation->toArray();
+
+        return $this;
+    }
+
+    public function aggregations(array $aggregations): self
+    {
+        foreach ($aggregations as $aggregation) {
+            $this->aggregation($aggregation);
+        }
 
         return $this;
     }
@@ -332,8 +341,8 @@ class ElasticBuilder
             $response['query'] = $this->query;
         }
 
-        if (! empty($this->aggregates)) {
-            $response['aggs'] = $this->aggregates;
+        if (! empty($this->aggregations)) {
+            $response['aggs'] = $this->aggregations;
         }
 
         // if (! empty($this->suggesters)) {

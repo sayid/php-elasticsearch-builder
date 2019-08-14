@@ -97,6 +97,16 @@ final class Sort implements SortInterface
     /**
      * {@inheritdoc}
      */
+    public function script(ScriptInterface $script): SortInterface
+    {
+        $this->script = $script;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function missing($value): SortInterface
     {
         $this->options['missing'] = $value;
@@ -148,16 +158,6 @@ final class Sort implements SortInterface
         }
 
         $this->options['order'] = $orderLower;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function script(ScriptInterface $script): SortInterface
-    {
-        $this->script = $script;
 
         return $this;
     }

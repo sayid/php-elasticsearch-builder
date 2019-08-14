@@ -28,6 +28,15 @@ interface SortInterface
     // public function geoDistance(GeoPoint $geoPoint): SortInterface;
 
     /**
+     * Allow to sort based on custom scripts.
+     *
+     * @param \Hypefactors\ElasticBuilder\Script\ScriptInterface $script
+     *
+     * @return \Hypefactors\ElasticBuilder\Sort\SortInterface
+     */
+    public function script(ScriptInterface $script): SortInterface;
+
+    /**
      * The missing parameter specifies how docs which are missing the sort field should be treated.
      *
      * @param int|string $value
@@ -70,15 +79,6 @@ interface SortInterface
      * @return \Hypefactors\ElasticBuilder\Sort\SortInterface
      */
     public function order(string $order): SortInterface;
-
-    /**
-     * Allow to sort based on custom scripts.
-     *
-     * @param \Hypefactors\ElasticBuilder\Script\ScriptInterface $script
-     *
-     * @return \Hypefactors\ElasticBuilder\Sort\SortInterface
-     */
-    public function script(ScriptInterface $script): SortInterface;
 
     /**
      * The `unmapped_type` option allows to ignore fields that have no mapping

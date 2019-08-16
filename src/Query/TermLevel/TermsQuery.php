@@ -168,7 +168,7 @@ class TermsQuery extends Query
         if (count($this->termsLookup) > 0) {
             $values = array_unique($this->termsLookup);
         } else {
-            $values = array_unique($this->values);
+            $values = array_values(array_unique($this->values));
         }
 
         return [

@@ -226,6 +226,27 @@ class TermsQueryTest extends TestCase
     }
 
     /** @test */
+    public function it_ensures_the_values_are_unique_and_without_weird_indexes()
+    {
+        $query = new TermsQuery();
+        $query->field('user');
+        $query->values([
+            0 => 'value1',
+            1 => 'value2',
+            2 => 'value2',
+            3 => 'value3',
+        ]);
+
+        $expectedArray = [
+            'terms' => [
+                'user' => ['value1', 'value2', 'value3'],
+            ],
+        ];
+
+        $this->assertSame($expectedArray, $query->toArray());
+    }
+
+    /** @test */
     public function an_exception_will_be_thrown_if_the_field_is_not_set_when_building_the_query()
     {
         $this->expectException(InvalidArgumentException::class);

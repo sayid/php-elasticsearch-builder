@@ -10,7 +10,7 @@ use Hypefactors\ElasticBuilder\Query\Query;
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-span-term-query.html
  */
-class SpanTermQuery extends Query
+class SpanTermQuery extends Query implements SpanQueryInterface
 {
     /**
      * The field to search on.

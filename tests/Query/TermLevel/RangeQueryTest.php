@@ -11,7 +11,7 @@ use Hypefactors\ElasticBuilder\Query\TermLevel\RangeQuery;
 class RangeQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -25,7 +25,7 @@ class RangeQueryTest extends TestCase
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -36,11 +36,11 @@ class RangeQueryTest extends TestCase
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -54,7 +54,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -65,11 +65,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_less_than_parameter()
+    public function it_builds_the_query_with_the_less_than_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -83,7 +83,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -94,11 +94,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_less_than_or_equal_parameter()
+    public function it_builds_the_query_with_the_less_than_or_equal_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -112,7 +112,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -123,11 +123,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_greater_than_parameter()
+    public function it_builds_the_query_with_the_greater_than_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -141,7 +141,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -152,11 +152,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_greater_than_or_equal_parameter()
+    public function it_builds_the_query_with_the_greater_than_or_equal_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -170,7 +170,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -181,11 +181,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_format_parameter()
+    public function it_builds_the_query_with_the_format_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -199,7 +199,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -210,11 +210,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_relation_parameter()
+    public function it_builds_the_query_with_the_relation_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -228,7 +228,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -239,11 +239,11 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_timezone_parameter()
+    public function it_builds_the_query_with_the_timezone_parameter()
     {
         $query = new RangeQuery();
         $query->field('user');
@@ -257,7 +257,7 @@ JSON;
             ],
         ];
 
-        $expectedQuery = <<<JSON
+        $expectedJson = <<<JSON
 {
     "range": {
         "user": {
@@ -268,7 +268,7 @@ JSON;
 JSON;
 
         $this->assertSame($expectedArray, $query->toArray());
-        $this->assertSame($expectedQuery, $query->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

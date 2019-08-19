@@ -174,8 +174,8 @@ JSON;
         $expectedArray = [
             'match_phrase_prefix' => [
                 'message' => [
-                    'query'          => 'this is a test',
-                    'slop' => 10,
+                    'query' => 'this is a test',
+                    'slop'  => 10,
                 ],
             ],
         ];

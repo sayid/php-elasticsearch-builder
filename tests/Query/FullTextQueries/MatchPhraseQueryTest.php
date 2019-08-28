@@ -11,7 +11,7 @@ use Hypefactors\ElasticBuilder\Query\FullText\MatchPhraseQuery;
 class MatchPhraseQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $query = new MatchPhraseQuery();
         $query->field('message');
@@ -23,11 +23,20 @@ class MatchPhraseQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match_phrase": {
+        "message": "this is a test"
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new MatchPhraseQuery();
         $query->field('message');
@@ -43,11 +52,23 @@ class MatchPhraseQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match_phrase": {
+        "message": {
+            "query": "this is a test",
+            "boost": 1.5
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new MatchPhraseQuery();
         $query->field('message');
@@ -63,7 +84,51 @@ class MatchPhraseQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match_phrase": {
+        "message": {
+            "query": "this is a test",
+            "_name": "my-query-name"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
+    }
+
+    /** @test */
+    public function it_builds_the_query_with_the_slop_parameter()
+    {
+        $query = new MatchPhraseQuery();
+        $query->field('message');
+        $query->query('this is a test');
+        $query->slop(5);
+
+        $expectedArray = [
+            'match_phrase' => [
+                'message' => [
+                    'query' => 'this is a test',
+                    'slop'  => 5,
+                ],
+            ],
+        ];
+
+        $expectedJson = <<<JSON
+{
+    "match_phrase": {
+        "message": {
+            "query": "this is a test",
+            "slop": 5
+        }
+    }
+}
+JSON;
+
+        $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

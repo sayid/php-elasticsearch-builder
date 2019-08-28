@@ -48,9 +48,30 @@ class MatchPhraseQuery extends Query
         return $this;
     }
 
+    /**
+     * Sets the query value to search with.
+     *
+     * @param mixed $query
+     *
+     * @return $this
+     */
     public function query($query): self
     {
         $this->body['query'] = $query;
+
+        return $this;
+    }
+
+    /**
+     * Controls the maximum number of intervening unmatched positions permitted.
+     *
+     * @param int $slop
+     *
+     * @return $this
+     */
+    public function slop(int $slop): self
+    {
+        $this->body['slop'] = $slop;
 
         return $this;
     }

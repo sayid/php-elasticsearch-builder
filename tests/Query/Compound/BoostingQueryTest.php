@@ -11,7 +11,7 @@ use Hypefactors\ElasticBuilder\Query\Compound\BoostingQuery;
 class BoostingQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array_with_the_positive_parameter()
+    public function it_builds_the_query_with_the_positive_parameter()
     {
         $termQuery = new TermQuery();
         $termQuery->field('user');
@@ -30,11 +30,24 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "boosting": {
+        "positive": {
+            "term": {
+                "user": "john"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_negative_parameter()
+    public function it_builds_the_query_with_the_negative_parameter()
     {
         $termQuery = new TermQuery();
         $termQuery->field('user');
@@ -53,11 +66,24 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "boosting": {
+        "negative": {
+            "term": {
+                "user": "john"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_positive_and_negative_parameters()
+    public function it_builds_the_query_with_the_positive_and_negative_parameters()
     {
         $termQuery = new TermQuery();
         $termQuery->field('user');
@@ -82,11 +108,29 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "boosting": {
+        "positive": {
+            "term": {
+                "user": "john"
+            }
+        },
+        "negative": {
+            "term": {
+                "user": "john"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_negative_boost_parameter()
+    public function it_builds_the_query_with_the_negative_boost_parameter()
     {
         $query = new BoostingQuery();
         $query->negativeBoost(2);
@@ -97,6 +141,15 @@ class BoostingQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "boosting": {
+        "negative_boost": 2
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 }

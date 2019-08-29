@@ -28,6 +28,19 @@ class ConstantScoreQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "constant_score": {
+        "filter": {
+            "term": {
+                "user": "john"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 }

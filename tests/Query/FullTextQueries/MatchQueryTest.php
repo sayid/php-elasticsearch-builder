@@ -11,7 +11,7 @@ use Hypefactors\ElasticBuilder\Query\FullText\MatchQuery;
 class MatchQueryTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array()
+    public function it_builds_the_query()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -23,11 +23,20 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": "this is a test"
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_boost_factor_parameter()
+    public function it_builds_the_query_with_the_boost_factor_parameter()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -43,11 +52,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "boost": 1.5
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_name_parameter()
+    public function it_builds_the_query_with_the_name_parameter()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -63,11 +84,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "_name": "my-query-name"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_cut_off_frequency_parameter()
+    public function it_builds_the_query_with_the_cut_off_frequency_parameter()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -83,11 +116,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "cutoff_frequency": 0.001
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_fuziness_parameter()
+    public function it_builds_the_query_with_the_fuziness_parameter()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -103,11 +148,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "fuzziness": 2
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_lenient()
+    public function it_builds_the_query_with_the_lenient()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -123,11 +180,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "lenient": true
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_max_expansinons_parameter()
+    public function it_builds_the_query_with_the_max_expansinons_parameter()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -143,11 +212,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "max_expansions": 5
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_prefix_length_parameter()
+    public function it_builds_the_query_with_the_prefix_length_parameter()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -163,11 +244,23 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "prefix_length": 5
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_array_with_the_operator()
+    public function it_builds_the_query_with_the_operator()
     {
         $query = new MatchQuery();
         $query->field('message');
@@ -183,7 +276,19 @@ class MatchQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "match": {
+        "message": {
+            "query": "this is a test",
+            "operator": "and"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

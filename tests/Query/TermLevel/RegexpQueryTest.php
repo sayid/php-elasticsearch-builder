@@ -132,7 +132,7 @@ JSON;
     }
 
     /** @test */
-    public function it_builds_the_query_as_an_array_with_the_flags_parameter_from_an_array()
+    public function it_builds_the_query_with_the_flags_parameter_from_an_array()
     {
         $query = new RegexpQuery();
         $query->field('name.first');

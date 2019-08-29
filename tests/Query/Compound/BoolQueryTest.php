@@ -31,7 +31,20 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "bool": {
+        "filter": {
+            "term": {
+                "user": "john"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -53,7 +66,20 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "bool": {
+        "must": {
+            "exists": {
+                "field": "user"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -75,7 +101,20 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "bool": {
+        "must_not": {
+            "exists": {
+                "field": "user"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -97,7 +136,20 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "bool": {
+        "should": {
+            "exists": {
+                "field": "user"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -140,6 +192,31 @@ class BoolQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "bool": {
+        "must": [
+            {
+                "term": {
+                    "user": "john"
+                }
+            },
+            {
+                "exists": {
+                    "field": "user"
+                }
+            }
+        ],
+        "must_not": {
+            "exists": {
+                "field": "other_field"
+            }
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 }

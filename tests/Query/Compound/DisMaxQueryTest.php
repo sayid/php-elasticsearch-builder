@@ -34,6 +34,22 @@ class DisMaxQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "dis_max": {
+        "queries": [
+            {
+                "term": {
+                    "user": "john"
+                }
+            }
+        ],
+        "tie_breaker": 0.7
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 }

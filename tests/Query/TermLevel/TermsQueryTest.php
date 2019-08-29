@@ -23,7 +23,18 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john"
+        ]
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -41,7 +52,19 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john"
+        ],
+        "boost": 1.5
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -59,7 +82,19 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john"
+        ],
+        "_name": "my-query-name"
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -75,7 +110,19 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john",
+            "jane"
+        ]
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -93,7 +140,20 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john",
+            "jane"
+        ],
+        "boost": 1.5
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -111,7 +171,20 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john",
+            "jane"
+        ],
+        "_name": "my-query-name"
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -128,7 +201,19 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "john",
+            "jane"
+        ]
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -150,7 +235,19 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": {
+            "index": "my_index",
+            "path": "color"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -168,7 +265,18 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": {
+            "index": "my_index"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -186,7 +294,18 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": {
+            "id": "2"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -204,7 +323,18 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": {
+            "path": "color"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -222,7 +352,18 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": {
+            "routing": "something"
+        }
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -243,7 +384,20 @@ class TermsQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "terms": {
+        "user": [
+            "value1",
+            "value2",
+            "value3"
+        ]
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

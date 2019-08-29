@@ -11,114 +11,70 @@ use Hypefactors\ElasticBuilder\Script\Script;
 class ScriptTest extends TestCase
 {
     /** @test */
-    public function it_builds_the_query_as_array_with_the_source_parameter()
+    public function it_builds_the_query_with_the_source_parameter()
     {
         $script = new Script();
         $script->source('script source');
 
-        $expected = [
+        $expectedArray = [
             'source' => 'script source',
         ];
 
-        $this->assertSame($expected, $script->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_id_parameter()
-    {
-        $script = new Script();
-        $script->id('my id');
-
-        $expected = [
-            'id' => 'my id',
-        ];
-
-        $this->assertSame($expected, $script->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_language_parameter()
-    {
-        $script = new Script();
-        $script->source('script source');
-        $script->language('painless');
-
-        $expected = [
-            'source' => 'script source',
-            'lang'   => 'painless',
-        ];
-
-        $this->assertSame($expected, $script->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_array_with_the_parameters_parameter()
-    {
-        $script = new Script();
-        $script->source('script source');
-        $script->parameters([
-            'multiplier' => 2,
-        ]);
-
-        $expected = [
-            'source'     => 'script source',
-                'params' => [
-                'multiplier' => 2,
-            ],
-        ];
-
-        $this->assertSame($expected, $script->toArray());
-    }
-
-    /** @test */
-    public function it_builds_the_query_as_json_with_the_source_parameter()
-    {
-        $script = new Script();
-        $script->source('script source');
-
-        $expected = <<<JSON
+        $expectedJson = <<<JSON
 {
     "source": "script source"
 }
 JSON;
 
-        $this->assertSame($expected, $script->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $script->toArray());
+        $this->assertSame($expectedJson, $script->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_id_parameter()
+    public function it_builds_the_query_with_the_id_parameter()
     {
         $script = new Script();
         $script->id('my id');
 
-        $expected = <<<JSON
+        $expectedArray = [
+            'id' => 'my id',
+        ];
+
+        $expectedJson = <<<JSON
 {
     "id": "my id"
 }
 JSON;
 
-        $this->assertSame($expected, $script->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $script->toArray());
+        $this->assertSame($expectedJson, $script->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_language_parameter()
+    public function it_builds_the_query_with_the_language_parameter()
     {
         $script = new Script();
         $script->source('script source');
         $script->language('painless');
 
-        $expected = <<<JSON
+        $expectedArray = [
+            'source' => 'script source',
+            'lang'   => 'painless',
+        ];
+
+        $expectedJson = <<<JSON
 {
     "source": "script source",
     "lang": "painless"
 }
 JSON;
 
-        $this->assertSame($expected, $script->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $script->toArray());
+        $this->assertSame($expectedJson, $script->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
-    public function it_builds_the_query_as_json_with_the_parameters_parameter()
+    public function it_builds_the_query_with_the_parameters_parameter()
     {
         $script = new Script();
         $script->source('script source');
@@ -126,7 +82,14 @@ JSON;
             'multiplier' => 2,
         ]);
 
-        $expected = <<<JSON
+        $expectedArray = [
+            'source'     => 'script source',
+                'params' => [
+                'multiplier' => 2,
+            ],
+        ];
+
+        $expectedJson = <<<JSON
 {
     "source": "script source",
     "params": {
@@ -135,7 +98,8 @@ JSON;
 }
 JSON;
 
-        $this->assertSame($expected, $script->toJson(JSON_PRETTY_PRINT));
+        $this->assertSame($expectedArray, $script->toArray());
+        $this->assertSame($expectedJson, $script->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */

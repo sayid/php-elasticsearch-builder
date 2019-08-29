@@ -21,7 +21,16 @@ class TypeQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "type": {
+        "value": "_doc"
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -38,7 +47,17 @@ class TypeQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "type": {
+        "value": "_doc",
+        "boost": 1.5
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 
     /** @test */
@@ -55,6 +74,16 @@ class TypeQueryTest extends TestCase
             ],
         ];
 
+        $expectedJson = <<<JSON
+{
+    "type": {
+        "value": "_doc",
+        "_name": "my-query-name"
+    }
+}
+JSON;
+
         $this->assertSame($expectedArray, $query->toArray());
+        $this->assertSame($expectedJson, $query->toJson(JSON_PRETTY_PRINT));
     }
 }

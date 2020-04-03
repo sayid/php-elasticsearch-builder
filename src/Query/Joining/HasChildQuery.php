@@ -11,7 +11,7 @@ use Hypefactors\ElasticBuilder\Query\Query;
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-query.html
  */
-class HasQuery extends Query
+class HasChildQuery extends Query
 {
     /**
      * Sets the field to search on.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hypefactors\ElasticBuilder\Tests\Queries;
+namespace Hypefactors\ElasticBuilder\Tests\Query;
 
 use PHPUnit\Framework\TestCase;
 use Hypefactors\ElasticBuilder\Query\MatchAllQuery;

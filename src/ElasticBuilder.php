@@ -187,7 +187,9 @@ class ElasticBuilder
      */
     public function searchAfter(array $values): self
     {
-        $this->body['search_after'] = $values;
+        if (! empty($values)) {
+            $this->body['search_after'] = $values;
+        }
 
         return $this;
     }

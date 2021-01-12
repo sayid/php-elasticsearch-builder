@@ -127,12 +127,12 @@ final class InnerHits
     /**
      * Allows to return the doc value representation of a field for each hit.
      *
-     * @param string $field
-     * @param string $format
+     * @param string      $field
+     * @param string|null $format
      *
      * @return $this
      */
-    public function docValueField(string $field, string $format = null): self
+    public function docValueField(string $field, ?string $format = null): self
     {
         if (! isset($this->body['docvalue_fields'])) {
             $this->body['docvalue_fields'] = [];

@@ -22,12 +22,12 @@ class MatchPhrasePrefixQuery extends Query
     /**
      * Constructor.
      *
-     * @param string $field
-     * @param mixed  $query
+     * @param string|null $field
+     * @param mixed       $query
      *
      * @return void
      */
-    public function __construct(string $field = null, $query = null)
+    public function __construct(?string $field = null, $query = null)
     {
         $field && $this->field($field);
 

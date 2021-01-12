@@ -67,7 +67,7 @@ final class Sort implements SortInterface
      *
      * @return void
      */
-    public function __construct(string $field = null, string $order = null)
+    public function __construct(?string $field = null, ?string $order = null)
     {
         $field && $this->field($field);
 

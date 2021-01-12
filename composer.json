@@ -18,12 +18,11 @@
         }
     ],
     "require": {
-        "php": "^7.2"
+        "php": "^7.4 || ^8.0"
     },
     "require-dev": {
-        "cartalyst/php-cs-fixer-config": "^1.0",
-        "hypefactors/php-code-standards": "^1.0",
-        "phpunit/phpunit": "^8.0"
+        "hypefactors/php-code-standards": "^1.1",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {

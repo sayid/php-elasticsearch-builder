@@ -16,7 +16,7 @@ final class Util
     public static function recursivetoArray($values)
     {
         return array_map(function ($value) {
-            if (method_exists($value, 'toArray')) {
+            if (is_object($value) && method_exists($value, 'toArray')) {
                 return $value->toArray();
             }
 

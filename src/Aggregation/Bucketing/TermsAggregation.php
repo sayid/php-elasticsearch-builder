@@ -6,7 +6,6 @@ namespace Hypefactors\ElasticBuilder\Aggregation\Bucketing;
 
 use InvalidArgumentException;
 use Hypefactors\ElasticBuilder\Core\Util;
-use Hypefactors\ElasticBuilder\Script\ScriptInterface;
 use Hypefactors\ElasticBuilder\Aggregation\Aggregation;
 
 /**
@@ -14,13 +13,6 @@ use Hypefactors\ElasticBuilder\Aggregation\Aggregation;
  */
 class TermsAggregation extends Aggregation
 {
-    public function field(string $field): self
-    {
-        $this->body['field'] = $field;
-
-        return $this;
-    }
-
     public function collectMode(string $mode): self
     {
         $modeLower = strtolower($mode);
@@ -43,13 +35,6 @@ class TermsAggregation extends Aggregation
         }
 
         $this->body['order'][] = [$key => $direction];
-
-        return $this;
-    }
-
-    public function script(ScriptInterface $script): self
-    {
-        $this->body['script'] = $script;
 
         return $this;
     }

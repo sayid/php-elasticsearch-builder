@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hypefactors\ElasticBuilder\Aggregation;
 
 use InvalidArgumentException;
+use Hypefactors\ElasticBuilder\Script\ScriptInterface;
 
 abstract class Aggregation implements AggregationInterface
 {
@@ -49,6 +50,16 @@ abstract class Aggregation implements AggregationInterface
     /**
      * {@inheritdoc}
      */
+    public function field(string $field): AggregationInterface
+    {
+        $this->body['field'] = $field;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function aggregation(AggregationInterface $aggregation): AggregationInterface
     {
         $this->nestedAggregations[] = $aggregation;
@@ -74,6 +85,16 @@ abstract class Aggregation implements AggregationInterface
     public function meta(array $meta): AggregationInterface
     {
         $this->meta = $meta;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function script(ScriptInterface $script): AggregationInterface
+    {
+        $this->body['script'] = $script;
 
         return $this;
     }

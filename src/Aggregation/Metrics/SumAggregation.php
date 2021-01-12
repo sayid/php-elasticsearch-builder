@@ -13,13 +13,6 @@ use Hypefactors\ElasticBuilder\Aggregation\Aggregation;
  */
 class SumAggregation extends Aggregation
 {
-    public function field(string $field): self
-    {
-        $this->body['field'] = $field;
-
-        return $this;
-    }
-
     public function getBody(): array
     {
         if (! isset($this->body['field'])) {

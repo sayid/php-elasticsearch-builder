@@ -64,11 +64,12 @@ interface HighlightInterface
     /**
      * Adds a field to be highlighted.
      *
-     * @param string $field
+     * @param string                                                        $field
+     * @param \Hypefactors\ElasticBuilder\Highlight\HighlightInterface|null $highlight
      *
      * @return \Hypefactors\ElasticBuilder\Highlight\HighlightInterface
      */
-    public function field(string $field): HighlightInterface;
+    public function field(string $field, ?HighlightInterface $highlight = null): HighlightInterface;
 
     /**
      * Adds the given fields to be highlighted.

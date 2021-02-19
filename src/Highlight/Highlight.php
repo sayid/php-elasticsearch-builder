@@ -9,7 +9,7 @@ use Hypefactors\ElasticBuilder\Core\Util;
 use Hypefactors\ElasticBuilder\Query\QueryInterface;
 
 /**
- * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html#request-body-search-highlighting
+ * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/highlighting.html
  */
 final class Highlight implements HighlightInterface
 {
@@ -120,10 +120,10 @@ final class Highlight implements HighlightInterface
     /**
      * {@inheritdoc}
      */
-    public function field(string $field): HighlightInterface
+    public function field(string $field, ?HighlightInterface $highlight = null): HighlightInterface
     {
         if (! isset($this->fields[$field])) {
-            $this->fields[$field] = [];
+            $this->fields[$field] = $highlight ?: [];
         }
 
         return $this;
@@ -134,8 +134,12 @@ final class Highlight implements HighlightInterface
      */
     public function fields(array $fields): HighlightInterface
     {
-        foreach ($fields as $field) {
-            $this->field($field);
+        foreach ($fields as $key => $value) {
+            $field = is_int($key) ? $value : $key;
+
+            $highlight = ! is_int($key) && is_object($value) ? $value : null;
+
+            $this->field($field, $highlight);
         }
 
         return $this;
@@ -320,9 +324,9 @@ final class Highlight implements HighlightInterface
 
         $fields = Util::recursivetoArray($this->fields);
 
-        return array_merge($parameters, [
+        return array_merge($parameters, array_filter([
             'fields' => $fields,
-        ]);
+        ]));
     }
 
     /**

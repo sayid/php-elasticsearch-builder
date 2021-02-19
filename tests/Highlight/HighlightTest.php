@@ -348,13 +348,15 @@ JSON;
     {
         $highlight = new Highlight();
         $highlight->fields([
-            'field-a',
+            'field-a' => (new Highlight())->numberOfFragments(1),
             'field-b',
         ]);
 
         $expectedArray = [
             'fields' => [
-                'field-a' => new stdClass(),
+                'field-a' => [
+                    'number_of_fragments' => 1,
+                ],
                 'field-b' => new stdClass(),
             ],
         ];
@@ -362,7 +364,9 @@ JSON;
         $expectedJson = <<<JSON
 {
     "fields": {
-        "field-a": {},
+        "field-a": {
+            "number_of_fragments": 1
+        },
         "field-b": {}
     }
 }

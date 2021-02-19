@@ -121,7 +121,9 @@ class ElasticBuilderTest extends TestCase
         $highlight = new Highlight();
         $highlight->fields([
             'field-a',
-            'field-b',
+            'field-b' => [],
+            'field-c',
+            'field-d' => (new Highlight())->fragmentSize(2),
         ]);
 
         $builder = new ElasticBuilder();
@@ -133,6 +135,10 @@ class ElasticBuilderTest extends TestCase
                     'fields' => [
                         'field-a' => new stdClass(),
                         'field-b' => new stdClass(),
+                        'field-c' => new stdClass(),
+                        'field-d' => [
+                            'fragment_size' => 2,
+                        ],
                     ],
                 ],
             ],

@@ -1,5 +1,5 @@
 {
-    "name": "hyperf/php-elasticsearch-builder",
+    "name": "hyperfsc/php-elasticsearch-builder",
     "description": "A PHP implementation of the Elasticsearch Query DSL.",
     "keywords": [
         "php",
